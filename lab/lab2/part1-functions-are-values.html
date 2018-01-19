@@ -53,7 +53,15 @@
       var yourSum = 0;
 
       // Refactor the work above into a few different functions that are reusable to the extent that you can
-      for (var i = 0; i < theArray.length, i++) { /* Do stuff here */ }
+      for (var i = 0; i < theArray.length; i++) {
+        /* Do stuff here */
+        var arrayValue = theArray[i];
+        function add(value) { yourSum += value }
+
+        if (typeof arrayValue == 'string') {add(arrayValue.length)}
+        else if (typeof arrayValue == 'number') {add(arrayValue)}
+        else {continue}
+      }
 
       /* =====================
 

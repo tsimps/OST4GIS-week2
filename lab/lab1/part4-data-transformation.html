@@ -50,16 +50,52 @@
     Without modifying part4-data-dirty.js, change your code to account for the dirty data.
 
     ===================== */
+    var cleanedData = bikeArrayDirty;
 
-    var data = bikeArrayClean;
+    // deal with incomplete in first instance
+    cleanedData[0][2] = "Municipal Services Building Plaza";
+    cleanedData[0][3] = "25 stations"
+
+
+
+    for (var i in cleanedData) {
+      // deal with the extra row in the third entry
+      if (cleanedData[i].length == 5) {
+        cleanedData[i].shift();
+      }
+
+      // convert strings of coordinates to floats
+      cleanedData[i][0] = Number(cleanedData[i][0]);
+      cleanedData[i][1] = Number(cleanedData[i][1]);
+
+      // remove "stations" and create integer
+      cleanedData[i][3] = parseInt(cleanedData[i][3]);
+
+      // print to debug
+      console.log(cleanedData[i][0]); // shows a problem in the third instance
+      //console.log(typeof(cleanedData[i][0]));
+      console.log(cleanedData[i][1]); // shows a problem in the third instance
+      //console.log(typeof(cleanedData[i][1]));
+      console.log(cleanedData[i][2]);
+      console.log("# of stations: " + cleanedData[i][3]);
+
+    }
+
+    var data = cleanedData;
 
     /* =====================
 
     Start code to filter data
 
     ===================== */
+    let dataFiltered = []; //create empty array
 
-
+    for (i in data) {
+      if (data[i][3] >= 20) {
+        dataFiltered[i] = data[i];
+        //console.log(dataFiltered[i][3]);
+      }
+    }
 
     /* =====================
 
@@ -86,7 +122,11 @@
 
     ===================== */
 
-
+    for (var i in dataFiltered) {
+      var station = dataFiltered[i];
+      var mark = L.marker([station[1], station[0]]);
+      mark.addTo(map);
+    }
 
     /* =====================
 
