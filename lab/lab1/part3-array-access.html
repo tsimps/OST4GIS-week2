@@ -63,9 +63,19 @@
 
     ===================== */
 
-    L.marker([0, 0]).addTo(map);
-    L.marker([0, 0]).addTo(map);
-    L.marker([0, 0]).addTo(map);
+    var r1 = [39.953232, -75.158982, "Reading Terminal Market Sandwhich Shop"]
+    var r2 = [39.949489, -75.143852, "Nick's Roast Beef"]
+    var r3 = [39.969445, -75.134547, "Frankford Hall"]
+    let restaurantData = [r1, r2, r3];
+
+    // loop through the outer array
+    for (var i in restaurantData) {
+      var item = restaurantData[i]; //reference the outer array
+      var mark = L.marker(item); // put a marker down for each r item
+      mark.addTo(map); // add this to the map
+      var message = item[2]; // extract the string from the inner array
+      mark.bindPopup(message).openPopup(); //put this into a popup
+    }
 
     /* =====================
 
