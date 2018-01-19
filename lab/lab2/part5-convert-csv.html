@@ -37,8 +37,34 @@
 
       ===================== */
 
-      console.log(healthCentersCSV)
+      //console.log(healthCentersCSV)
 
+      // initatilize row, column, and frame arrays
+      var row = 0;
+      var column = 0;
+      var arr = []
+      var frame = [arr]; //2d to combine row and columns
+      var char = "";
+      var word = "";
+      var count = 0;
+
+      while (count < healthCentersCSV.length) {
+        //console.log("Initalizing loop");
+        char = healthCentersCSV[count];
+
+        // next column at ,
+        if (char === "," || char === ";") {
+          frame.push(word); // add the word to its place before moving on
+          word = ""; //reset the word
+        }
+        else {
+          word = word + char;
+          //console.log(word);
+        }
+        count = count + 1;
+      }
+
+      console.log(frame);
       /* =====================
 
       End code
