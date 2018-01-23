@@ -39,32 +39,56 @@
 
       //console.log(healthCentersCSV)
 
-      // initatilize row, column, and frame arrays
-      var row = 0;
-      var column = 0;
-      var arr = []
-      var frame = [arr]; //2d to combine row and columns
+      // initatilize variables
+      var place = 0;
+      var smallArray = [];
+      var bigArray = [];
+      var arrayLine = 0;
       var char = "";
       var word = "";
-      var count = 0;
 
-      while (count < healthCentersCSV.length) {
-        //console.log("Initalizing loop");
-        char = healthCentersCSV[count];
+      // loop through the json object
+      for (var i = 0; i < healthCentersCSV.length; i++) {
 
-        // next column at ,
-        if (char === "," || char === ";") {
-          frame.push(word); // add the word to its place before moving on
+        char = healthCentersCSV[i];
+        //console.log("evaluating: " + healthCentersCSV[i])
+
+        if (char === ",") {
           word = ""; //reset the word
+          place = place + 1;
+
+          //console.log("found a comma")
         }
+
+        // when the row breaks, we want to: reset the word, copy the small array
+        // to the bigger array,
+
+        else if (char === ";") {
+          word = ""; // reset the holder of the words
+          place = 0; // reset the place holder of small array
+
+          bigArray[arrayLine] = smallArray; // copy the small array into bigger
+
+          smallArray = []; //reset the small array
+          arrayLine++; // increment arrayLine
+
+          //console.log(smallArray);
+          //console.log("found a semi colon")
+        }
+
+        // if there is just a char, add the char to stored word and update the small array
         else {
           word = word + char;
+          smallArray[place] = word;
+
           //console.log(word);
         }
-        count = count + 1;
+
+        //console.log(array[row][column])
       }
 
-      console.log(frame);
+      console.log(bigArray)
+
       /* =====================
 
       End code
