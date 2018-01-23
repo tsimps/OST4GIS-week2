@@ -19,8 +19,8 @@
     <!--Your code starts here-->
     <script>
       var map = L.map('map', {
-        center: [39.9522, -75.1639],
-        zoom: 14
+        center: [39.97, -75.14],
+        zoom: 12
       });
       var Stamen_TonerLite = L.tileLayer('http://stamen-tiles-{s}.a.ssl.fastly.net/toner-lite/{z}/{x}/{y}.{ext}', {
         attribution: 'Map tiles by <a href="http://stamen.com">Stamen Design</a>, <a href="http://creativecommons.org/licenses/by/3.0">CC BY 3.0</a> &mdash; Map data &copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>',
@@ -55,10 +55,53 @@
 
       ===================== */
 
-      var jsonToCsv = function(json) { console.log(json); };
+      var jsonToCsv = function(json) {
+        var array = [[]]; // intialize our final multidimensional array
 
+        var firstRow = Object.keys(json[0]); // gets the header
+        array[0] = firstRow; // store the header to the array
 
-      var addMarkers = function(map) {};
+        // loop through the json object
+        for (var i = 0; i < json.length; i++) {
+          var line = []; // initialize and reset line array
+
+          line = Object.values(json[i]); // get the values of the object
+
+          array[i+1] = line; // store the line array to the larger array
+        }
+
+        console.log(array); // log the array line to the console
+        return array; // return the array for use later
+      }
+
+      // note: modified addMarkers function to also take in a database.
+      // this will allow the function more use across different data sets in
+      // the future because specific data is not called in the function
+
+      var addMarkers = function(map, data) {
+
+        for (var i = 1; i < data.length; i++) {
+          var url = '';
+          if (data[i][8] === "N/A") {
+            url = 'http://www.pvhc.net/img63/qgabcqvdpqbjbrupebjn.png' //not dental
+          }
+          else {
+            url = 'https://cdn3.iconfinder.com/data/icons/map-markers-1/512/stomatology-512.png' //is dental
+          }
+
+          var myIcon = L.icon({
+            iconUrl: url,
+            iconSize: [50, 50],
+          });
+
+          var popup = L.popup().setContent(data[i][3]);
+
+          // add the marker to the map and bind the popup to it
+          var marker = L.marker([data[i][1], data[i][0]], {icon: myIcon});
+          marker.bindPopup(popup).openPopup().addTo(map);
+
+        }
+      };
 
       /* =====================
 
@@ -66,9 +109,10 @@
 
       ===================== */
 
+      // execute on healthCenters
+      var data = jsonToCsv(healthCenters);
+      addMarkers(map, data);
 
-      jsonToCsv(healthCenters);
-      addMarkers(map);
     </script>
     <!--Your code ends here-->
   </body>
