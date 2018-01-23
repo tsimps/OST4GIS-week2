@@ -64,6 +64,10 @@
         cleanedData[i].shift();
       }
 
+      // ignore stations without full data
+      else if (cleanedData[i].length < 4) {
+        continue;
+      }
       // convert strings of coordinates to floats
       cleanedData[i][0] = Number(cleanedData[i][0]);
       cleanedData[i][1] = Number(cleanedData[i][1]);
@@ -71,6 +75,7 @@
       // remove "stations" and create integer
       cleanedData[i][3] = parseInt(cleanedData[i][3]);
 
+      ///*
       // print to debug
       console.log(cleanedData[i][0]); // shows a problem in the third instance
       //console.log(typeof(cleanedData[i][0]));
@@ -78,7 +83,7 @@
       //console.log(typeof(cleanedData[i][1]));
       console.log(cleanedData[i][2]);
       console.log("# of stations: " + cleanedData[i][3]);
-
+      //*/
     }
 
     var data = cleanedData;
